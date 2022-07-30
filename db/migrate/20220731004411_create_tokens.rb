@@ -5,7 +5,7 @@ class CreateTokens < ActiveRecord::Migration[7.0]
     create_table :api_tokens do |t|
       t.string :api_access_token
       t.string :api_refresh_token
-      t.datetime :expired_at
+      t.datetime :expiry_at
       t.string :provider
       t.string :user_id
 

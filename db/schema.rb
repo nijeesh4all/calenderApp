@@ -17,7 +17,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_31_004411) do
   create_table "api_tokens", force: :cascade do |t|
     t.string "api_access_token"
     t.string "api_refresh_token"
-    t.datetime "expired_at"
+    t.datetime "expiry_at"
     t.string "provider"
     t.string "user_id"
     t.datetime "created_at", null: false
