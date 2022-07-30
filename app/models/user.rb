@@ -3,8 +3,11 @@ class User < ApplicationRecord
   devise :omniauthable, omniauth_providers: %i[google_oauth2]
 
   has_one :api_token, dependent: :destroy
+  has_many :events
 
   accepts_nested_attributes_for :api_token
+
+  after_create_commit :sync_google_calender_events
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -18,5 +21,9 @@ class User < ApplicationRecord
         provider: auth.provider
       }
     end
+  end
+
+  def sync_google_calender_events
+    SyncGoogleCalenderEvents.perform_later(id)
   end
 end
