@@ -1,0 +1,12 @@
+<%# User.omniauth_providers.each do |provider| %>
+  <%#= link_to 'link',user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false } %>
+<%# end %>
+<%- User.omniauth_providers.each do |provider| %>
+  <%= form_for "Login",
+               url: omniauth_authorize_path(:user, provider),
+               method: :post,
+               data: { turbo: "false" } do |f|
+  %>
+    <%= f.submit "login with google" %>
+  <% end %>
+<% end %>

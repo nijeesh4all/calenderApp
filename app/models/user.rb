@@ -8,12 +8,6 @@ class User < ApplicationRecord
       user.email = auth.info.email
       user.full_name = auth.info.name
       user.avatar_url = auth.info.image
-      user.tokens_attributes = [{
-                                  api_access_token: auth.credentials.token,
-                                  api_refresh_token: auth.credentials.refresh_token,
-                                  expiry: Time.at(auth.credentials.expires_at),
-                                  provider: auth.provider
-                                }]
     end
   end
 end
