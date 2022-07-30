@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # allow only sign-in and signup via OAuth
   devise :omniauthable, omniauth_providers: %i[google_oauth2]
 
-  has_one :api_token
+  has_one :api_token, dependent: :destroy
 
   accepts_nested_attributes_for :api_token
 
