@@ -30,5 +30,6 @@ module CalenderApp
     config.active_record.encryption.primary_key = ENV['PRIMARY_KEY']
     config.active_record.encryption.deterministic_key = ENV['DETERMINISTIC_KEY']
 
+    config.active_job.queue_adapter = :sidekiq
   end
 end
