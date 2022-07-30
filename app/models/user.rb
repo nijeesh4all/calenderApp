@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-
   # allow only sign-in and signup via OAuth
   devise :omniauthable, omniauth_providers: %i[google_oauth2]
 
@@ -15,7 +14,7 @@ class User < ApplicationRecord
       user.api_token_attributes = {
         api_access_token: auth.credentials.token,
         api_refresh_token: auth.credentials.refresh_token,
-        expiry_at: Time.at(auth.credentials.expires_at),
+        expiry_at: Time.zone.at(auth.credentials.expires_at),
         provider: auth.provider
       }
     end
