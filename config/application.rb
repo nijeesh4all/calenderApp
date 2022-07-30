@@ -25,5 +25,10 @@ module CalenderApp
 
     # Load dotenv only in development or test environment
 
+    # active_record encryption keys
+    config.active_record.encryption.key_derivation_salt = ENV['KEY_DERIVATION_SALT']
+    config.active_record.encryption.primary_key = ENV['PRIMARY_KEY']
+    config.active_record.encryption.deterministic_key = ENV['DETERMINISTIC_KEY']
+
   end
 end
