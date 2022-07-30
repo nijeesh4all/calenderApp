@@ -15,7 +15,7 @@ services:
       REDIS_HOST: 'redis'
     volumes:
       - .:/usr/src/app
-    command: bundle exec rails server -b 0.0.0.0 -p 3000
+    command: "bundle exec rails server -b 0.0.0.0 -p 3000"
   redis:
     image: 'redis:5-alpine'
     command: redis-server

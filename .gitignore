@@ -34,4 +34,4 @@
 !.env.example
 yarn-debug.log*
 .yarn-integrity
-.idea
+.idea/
