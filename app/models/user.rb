@@ -24,6 +24,6 @@ class User < ApplicationRecord
   end
 
   def sync_google_calender_events
-    SyncGoogleCalenderEvents.perform_later(id)
+    SyncGoogleCalenderEventsJob.perform_later(id)
   end
 end

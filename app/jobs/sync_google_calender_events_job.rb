@@ -1,4 +1,4 @@
-class SyncGoogleCalenderEvents < ApplicationJob
+class SyncGoogleCalenderEventsJob < ApplicationJob
   queue_as :default
 
   def perform(user_id)
@@ -19,7 +19,8 @@ class SyncGoogleCalenderEvents < ApplicationJob
       description: event_item.description,
       start_date_time: start_time,
       end_date_time: end_time,
-      event: event_item.id
+      event: event_item.id,
+      event_source: 'google'
     )
   end
 
