@@ -20,7 +20,7 @@ class SyncGoogleCalenderEventsJob < ApplicationJob
       start_date_time: start_time,
       end_date_time: end_time,
       event: event_item.id,
-      event_source: 'google'
+      created_from: :sync
     )
   end
 
