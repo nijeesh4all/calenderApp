@@ -4,5 +4,8 @@ class CalenderCallbackController < ApplicationController
   def create
     callback_request = WebhookRequestResponse.new(request, params)
 
+    ProcessWebhookRequestJob.perform_later(callback_request.event_id) if callback_request.state_exists?
+
+    render :nothing, status: :ok
   end
 end

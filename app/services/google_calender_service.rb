@@ -30,14 +30,28 @@ class GoogleCalenderService
 
   def remove_calender_event(event_token)
     @calender_service.delete_event(DEFAULT_CALENDER, event_token)
+  rescue Google::Apis::ClientError => e
+    # if event has been deleted fail silently
+    raise e unless event_deleted_error?(e)
   end
 
   def watch_calender_event(event)
     @calender_service.watch_event(DEFAULT_CALENDER, google_channel(event))
+  rescue Google::Apis::ClientError => e
+    # if event has been deleted fail silently
+    raise e unless event_deleted_error?(e)
   end
 
   def fetch_event(event)
     @calender_service.get_event(DEFAULT_CALENDER, event.event)
+  end
+
+  def refresh_event!(event)
+    g_event = fetch_event(event)
+    attributes = Event.extract_event_attributes(g_event)
+    event.update(attributes)
+  rescue Google::Apis::ClientError => e
+    event.destroy
   end
 
   private
@@ -69,9 +83,18 @@ class GoogleCalenderService
     )
   end
 
-  def extract_event_attributes(google_event)
-    {
+  # @param [Google::Apis::ClientError] error
 
-    }
+  def event_deleted_error?(error)
+    event_status_from_error(error) == :deleted
+  end
+
+  def event_status_from_error(error)
+    case e.message
+    when 'deleted: Resource has been deleted'
+      :deleted
+    else
+      :nil
+    end
   end
 end
