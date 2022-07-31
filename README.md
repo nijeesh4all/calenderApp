@@ -6,7 +6,7 @@
 
 check out the demo here : 
 > Since its running on heroku free dyno,the application goes to sleep after some time of inactivity
-> so the first request might be really so because of that
+> so the first request might be really slow so because of that
 
 This is an demo application built for the second round of interview for memory
 
