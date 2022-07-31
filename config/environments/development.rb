@@ -76,4 +76,8 @@ Rails.application.configure do
     Bullet.rails_logger  = true
     Bullet.add_footer    = true
   end
+
+  # since google needs https url its important to run ngrock to test the webhook locally
+  config.hosts << '.ngrok.io'
+
 end
