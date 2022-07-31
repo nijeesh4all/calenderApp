@@ -7,7 +7,7 @@ class WebhookRequestResponse
   end
 
   def event
-    @event ||= Event.find(event_id)
+    @event ||= Event.where(id: event_id, event: event_token).first
   end
 
   def event_id
@@ -26,7 +26,7 @@ class WebhookRequestResponse
     headers['HTTP_X_GOOG_RESOURCE_STATE']
   end
 
-  def channel_token
+  def event_token
     headers['x-goog-channel-token']
   end
 end
