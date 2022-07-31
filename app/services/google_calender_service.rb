@@ -15,15 +15,13 @@ class GoogleCalenderService
 
   # @param [Event] event
   def create_google_calender_event(event)
-    google_event = Google::Apis::CalendarV3::Event.new(
-      summary: event.title,
-      description: event.description,
-      start: google_time_format(event.start_date_time),
-      end: google_time_format(event.start_date_time)
-    )
-    result = @calender_service.insert_event(DEFAULT_CALENDER, google_event)
+    result = @calender_service.insert_event(DEFAULT_CALENDER, construct_event(event))
     event.update(event: result.id)
     event.register_event_webhook
+  end
+
+  def update_google_calender_event(event)
+    @calender_service.update_event(DEFAULT_CALENDER, event.event, construct_event(event))
   end
 
   def fetch_calender_events
@@ -32,6 +30,15 @@ class GoogleCalenderService
 
   private
 
+
+  def construct_event(event)
+    Google::Apis::CalendarV3::Event.new(
+      summary: event.title,
+      description: event.description,
+      start: google_time_format(event.start_date_time),
+      end: google_time_format(event.start_date_time)
+    )
+  end
 
   # @param [DateTime] date_time
   def google_time_format(date_time)
