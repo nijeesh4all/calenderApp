@@ -17,10 +17,6 @@ class Event < ApplicationRecord
     event.present?
   end
 
-  def refresh!
-    GoogleCalenderService.new(user.api_token).fetch_event(self)
-  end
-
   # @param [Google::Apis::CalendarV3::Event] google_event
   def self.extract_event_attributes(google_event, created_from: :sync)
     start_time = google_event.start.date_time
@@ -42,6 +38,11 @@ class Event < ApplicationRecord
   end
 
   def publish_event_changes_to_google_calender
+    return unless saved_change_to_attribute?(:title) ||
+      saved_change_to_attribute?(:description) ||
+      saved_change_to_attribute?(:start_date_time) ||
+      saved_change_to_attribute?(:end_date_time)
+
     PublishEventChangesToGoogleJob.perform_later(id)
   end
 
