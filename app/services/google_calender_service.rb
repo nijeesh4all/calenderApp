@@ -28,6 +28,10 @@ class GoogleCalenderService
     @calender_service.list_events(DEFAULT_CALENDER)
   end
 
+  def remove_calender_event(event_token)
+    @calender_service.delete_event(DEFAULT_CALENDER, event_token)
+  end
+
   private
 
 

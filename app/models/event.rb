@@ -7,6 +7,7 @@ class Event < ApplicationRecord
 
   after_create_commit :register_event_webhook, :publish_event_to_google_calender
   after_update_commit :publish_event_changes_to_google_calender
+  after_destroy_commit :remove_event_from_google_calender
 
   def register_event_webhook
     SubscribeGoogleEventsWebhookJob.perform_later(user_id, id) if event?
@@ -24,6 +25,10 @@ class Event < ApplicationRecord
 
   def publish_event_changes_to_google_calender
     PublishEventChangesToGoogleJob.perform_later(id)
+  end
+
+  def remove_event_from_google_calender
+    RemoveEventFromGoogleCalender.perform_later(user_id, event.event) if created_from_request?
   end
 
 end
