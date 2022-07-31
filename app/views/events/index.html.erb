@@ -2,6 +2,8 @@
 
 <h1>Events</h1>
 
+<%= will_paginate @posts %>
+
 <div id="events">
   <% @events.each do |event| %>
     <%= render event %>

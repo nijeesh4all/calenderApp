@@ -7,10 +7,12 @@ class Event < ApplicationRecord
 
   after_create_commit :register_event_webhook, :publish_event_to_google_calender
   after_update_commit :publish_event_changes_to_google_calender
-  after_destroy_commit :remove_event_from_google_calender
+  after_destroy :remove_event_from_google_calender
+
+  scope :recent, -> { order(start_date_time: :desc) }
 
   def register_event_webhook
-    SubscribeGoogleEventsWebhookJob.perform_later(id) if created_from_request?
+    SubscribeGoogleEventsWebhookJob.perform_later(id) if event?
   end
 
   def event?
@@ -47,7 +49,7 @@ class Event < ApplicationRecord
   end
 
   def remove_event_from_google_calender
-    RemoveEventFromGoogleCalender.perform_later(user_id, event.event) if created_from_request?
+    RemoveEventFromGoogleCalender.perform_later(user_id, event) if created_from_request?
   end
 
 end
