@@ -25,7 +25,7 @@ class GoogleCalenderService
   end
 
   def fetch_calender_events
-    @event_list = service.list_events(DEFAULT_CALENDER)
+    @calender_service.list_events(DEFAULT_CALENDER)
   end
 
   private
