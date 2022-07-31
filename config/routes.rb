@@ -8,5 +8,7 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
 
+  post '/calender_callback/:id', to: 'calender_callback#create'
+
   root 'home#index'
 end

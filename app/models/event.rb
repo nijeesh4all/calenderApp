@@ -10,11 +10,29 @@ class Event < ApplicationRecord
   after_destroy_commit :remove_event_from_google_calender
 
   def register_event_webhook
-    SubscribeGoogleEventsWebhookJob.perform_later(user_id, id) if event?
+    SubscribeGoogleEventsWebhookJob.perform_later(id) if created_from_request?
   end
 
   def event?
     event.present?
+  end
+
+  def refresh!
+    GoogleCalenderService.new(user.api_token).fetch_event(self)
+  end
+
+  # @param [Google::Apis::CalendarV3::Event] google_event
+  def self.extract_event_attributes(google_event, created_from: :sync)
+    start_time = google_event.start.date_time
+    end_time = google_event.end.date_time
+    {
+      title: google_event.summary,
+      description: google_event.description,
+      start_date_time: start_time,
+      end_date_time: end_time,
+      event: google_event.id,
+      created_from: created_from
+    }
   end
 
   private

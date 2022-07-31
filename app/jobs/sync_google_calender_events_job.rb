@@ -10,18 +10,9 @@ class SyncGoogleCalenderEventsJob < ApplicationJob
 
   # @param [Google::Apis::CalendarV3::Event] event_item
   def create_event(event_item)
-    start_time = event_item.start.date_time
-    end_time = event_item.end.date_time
-
     event = @user.events.find_or_initialize_by(event: event_item.id)
-    event.update(
-      title: event_item.summary,
-      description: event_item.description,
-      start_date_time: start_time,
-      end_date_time: end_time,
-      event: event_item.id,
-      created_from: :sync
-    )
+    event_attributes = Event.extract_event_attributes(event_item)
+    event.update(event_attributes)
   end
 
 end

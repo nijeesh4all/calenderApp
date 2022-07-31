@@ -32,6 +32,14 @@ class GoogleCalenderService
     @calender_service.delete_event(DEFAULT_CALENDER, event_token)
   end
 
+  def watch_calender_event(event)
+    @calender_service.watch_event(DEFAULT_CALENDER, google_channel(event))
+  end
+
+  def fetch_event(event)
+    @calender_service.get_event('primary', 'eventId')
+  end
+
   private
 
 
@@ -49,5 +57,21 @@ class GoogleCalenderService
     Google::Apis::CalendarV3::EventDateTime.new(
       date_time: date_time.iso8601
     )
+  end
+
+  def google_channel(event)
+    uuid = SecureRandom.uuid
+    Google::Apis::CalendarV3::Channel.new(
+      id: uuid,
+      type: 'web_hook',
+      address: "#{ENV['APPLICATION_URL']}/calender_callback/#{event.id}",
+      token: event.event
+    )
+  end
+
+  def extract_event_attributes(google_event)
+    {
+
+    }
   end
 end
