@@ -50,6 +50,7 @@ gem 'bootsnap', require: false
 gem 'strong_migrations'
 
 gem 'sidekiq'
+gem "sidekiq-cron"
 
 # Authentication & Omniauth
 gem 'devise'
