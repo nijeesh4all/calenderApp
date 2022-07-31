@@ -37,7 +37,7 @@ class GoogleCalenderService
   end
 
   def fetch_event(event)
-    @calender_service.get_event('primary', 'eventId')
+    @calender_service.get_event(DEFAULT_CALENDER, event.event)
   end
 
   private
