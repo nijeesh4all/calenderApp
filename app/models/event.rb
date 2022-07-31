@@ -1,7 +1,7 @@
 class Event < ApplicationRecord
   belongs_to :user
 
-  attr_accessor :event_source
+  enum created_from: [:request, :sync], _prefix: true
 
   validates_presence_of :start_date_time, :end_date_time, :title
 
